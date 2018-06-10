@@ -10,34 +10,27 @@ testCase = input("Test Case Number\n")
 devCheck = 'n'
 while devCheck == 'n' or devCheck == 'N':
     os.system('cls')
-    os.system('adb devices')
+    os.system('.\\platform-tools\\adb devices')
     devCheck = input('\nAre all devices listed?(Y/N)\n')
-
-
 
 print("\n\nstarting logging")
 
 ADBrawInput = str(io.StringIO(os.popen(".\\platform-tools\\adb devices").read()).read())
-DUT1add = ADBrawInput[(ADBrawInput.find('\n') + 1):ADBrawInput.find('\t')]
-DUT1Folder = "{}_{}".format(DUT1add, testCase)
-DUT2add = ADBrawInput[(ADBrawInput.find(DUT1add) + 2):ADBrawInput.find('\t')]
-DUT2Folder = "{}_{}".format(DUT2add, testCase)
+NumDevices = ADBrawInput.count(r"device\n")
 
+for i in range(NumDevices):
+    if NumDevices == 1:
+        DUTadd = ADBrawInput[(ADBrawInput.find('\n') + 1):ADBrawInput.find('\t')]
+    else:
+        DUTadd = ADBrawInput[(ADBrawInput.find(DUTadd) + 2):ADBrawInput.find('\t')]
 
-os.mkdir('{}'.format(DUT1Folder))
-#os.mkdir('{}'.format(DUT2Folder))
+    DUTFolder = "{}_{}".format(DUTadd, testCase)
 
+    os.mkdir('{}'.format(DUTFolder))
 
-os.popen("start cmd /C adb -s {} logcat -b radio -v threadtime ^>^>{}/logradio.txt".format(DUT1add, DUT1Folder))
-os.popen("start cmd /C adb -s {} logcat -b main -v threadtime ^>^>{}/logmain.txt".format(DUT1add, DUT1Folder))
-os.popen("start cmd /C adb -s {} logcat -b kernel -v threadtime ^>^>{}/logkernel.txt".format(DUT1add, DUT1Folder))
-os.popen("start cmd /C adb -s {} logcat -b events -v threadtime ^>^>{}/logevents.txt".format(DUT1add, DUT1Folder))
-os.popen("start cmd /C adb -s {} logcat -b system -v threadtime ^>^>{}/logsystem.txt".format(DUT1add, DUT1Folder))
-os.popen("start cmd /C adb -s {} logcat -b all -v threadtime ^>^>{}/logall.txt".format(DUT1add, DUT1Folder))
-
-os.popen("start cmd /C adb -s {} logcat -b radio -v threadtime ^>^>{}/logradio.txt".format(DUT2add, DUT2Folder))
-os.popen("start cmd /C adb -s {} logcat -b main -v threadtime ^>^>{}/logmain.txt".format(DUT2add, DUT2Folder))
-os.popen("start cmd /C adb -s {} logcat -b kernel -v threadtime ^>^>{}/logkernel.txt".format(DUT2add, DUT2Folder))
-os.popen("start cmd /C adb -s {} logcat -b events -v threadtime ^>^>{}/logevents.txt".format(DUT2add, DUT2Folder))
-os.popen("start cmd /C adb -s {} logcat -b system -v threadtime ^>^>{}/logsystem.txt".format(DUT2add, DUT2Folder))
-os.popen("start cmd /C adb -s {} logcat -b all -v threadtime ^>^>{}/logall.txt".format(DUT2add, DUT2Folder))
+    os.popen("start cmd /C .\\platform-tools\\adb -s {} logcat -b radio -v threadtime ^>^>{}/logradio.txt".format(DUTadd, DUTFolder))
+    os.popen("start cmd /C .\\platform-tools\\adb -s {} logcat -b main -v threadtime ^>^>{}/logmain.txt".format(DUTadd, DUTFolder))
+    os.popen("start cmd /C .\\platform-tools\\adb -s {} logcat -b kernel -v threadtime ^>^>{}/logkernel.txt".format(DUTadd, DUTFolder))
+    os.popen("start cmd /C .\\platform-tools\\adb -s {} logcat -b events -v threadtime ^>^>{}/logevents.txt".format(DUTadd, DUTFolder))
+    os.popen("start cmd /C .\\platform-tools\\adb -s {} logcat -b system -v threadtime ^>^>{}/logsystem.txt".format(DUTadd, DUTFolder))
+    os.popen("start cmd /C .\\platform-tools\\adb -s {} logcat -b all -v threadtime ^>^>{}/logall.txt".format(DUTadd, DUTFolder))
