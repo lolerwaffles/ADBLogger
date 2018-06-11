@@ -16,7 +16,7 @@ while devCheck == 'n' or devCheck == 'N':
 print("\n\nstarting logging")
 
 ADBrawInput = str(io.StringIO(os.popen(".\\platform-tools\\adb devices").read()).read())
-NumDevices = ADBrawInput.count(r"device\n")
+NumDevices = ADBrawInput.count("\tdevice")
 
 for i in range(NumDevices):
     if NumDevices == 1:
