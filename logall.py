@@ -1,8 +1,8 @@
-import os, io, re, subprocess, datetime
+import os, io, re, datetime
 
 
 os.system('cls')
-print("Walter's LogAll v3, ver.0.1\nAutomatically Connects to all ADB enabled devices and logs them.\nA Folder named with IMEI and timestamp is created for each connected device\n")
+print("Walter's LogAll v3, ver.0.1\nAutomatically Connects to all ADB enabled devices and logs them.\nA Folder named with IMEI and timestamp is created for each connected device\n\n")
 
 
 testCase = input("Test Case Number\n")
@@ -36,6 +36,4 @@ for i in range(len(DUTadd)):
     os.popen("start cmd /C .\\platform-tools\\adb -s {} logcat -b events -v threadtime ^>^>{}/logevents.txt".format(DUTadd[i], DUTFolder))
     os.popen("start cmd /C .\\platform-tools\\adb -s {} logcat -b system -v threadtime ^>^>{}/logsystem.txt".format(DUTadd[i], DUTFolder))
     os.popen("start cmd /C .\\platform-tools\\adb -s {} logcat -b all -v threadtime ^>^>{}/logall.txt".format(DUTadd[i], DUTFolder))
-
-
-print("Logging started")
+    
