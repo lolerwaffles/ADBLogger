@@ -23,8 +23,11 @@ DUTadd = pattern.findall(ADBrawInput)
 for i in range(len(DUTadd)):
     DUTadd[i] = DUTadd[i][1:-1]
 
-    IMEI = str(io.StringIO(os.popen( r'''.\\platform-tools\\adb -s {} shell "service call iphonesubinfo 1 | toybox cut -d \"'\" -f2 | toybox grep -Eo '[0-9]' | toybox xargs | toybox sed 's/\ //g'"'''.format(DUTadd[i])).read()).read())
-    IMEI = IMEI[:-1:]
+    IMEIraw = str(io.StringIO(os.popen( r'''.\\platform-tools\\adb -s {} shell "service call iphonesubinfo 1 | toybox cut -d \"'\" -f2 | toybox grep -Eo '[0-9]' | toybox xargs | toybox sed 's/\ //g'"'''.format(DUTadd[i])).read()).read())
+    IMEIPattern = re.compile('/w*')
+    IMEI = IMEIPattern.findall(IMEIraw)
+    print(IMEI)
+    IMEI = IMEI[0]
 
     DUTFolder = "{}_{}_{}".format(IMEI, testCase , datetime.datetime.now().strftime("%H-%M-%S"))
 
@@ -36,4 +39,3 @@ for i in range(len(DUTadd)):
     os.popen("start cmd /C .\\platform-tools\\adb -s {} logcat -b events -v threadtime ^>^>{}/logevents.txt".format(DUTadd[i], DUTFolder))
     os.popen("start cmd /C .\\platform-tools\\adb -s {} logcat -b system -v threadtime ^>^>{}/logsystem.txt".format(DUTadd[i], DUTFolder))
     os.popen("start cmd /C .\\platform-tools\\adb -s {} logcat -b all -v threadtime ^>^>{}/logall.txt".format(DUTadd[i], DUTFolder))
-    
