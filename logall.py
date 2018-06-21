@@ -16,7 +16,7 @@ while devCheck == 'n' or devCheck == 'N':
 print("\n\nstarting logging")
 
 ADBrawInput = str(io.StringIO(os.popen(".\\platform-tools\\adb devices").read()).read())
-pattern = re.compile('\\n.*?\\t')
+pattern = re.compile('\\n((?!\\n|\\t).*?)\\t')
 
 DUTadd = pattern.findall(ADBrawInput)
 
@@ -24,10 +24,10 @@ for i in range(len(DUTadd)):
     DUTadd[i] = DUTadd[i][1:-1]
 
     IMEIraw = str(io.StringIO(os.popen( r'''.\\platform-tools\\adb -s {} shell "service call iphonesubinfo 1 | toybox cut -d \"'\" -f2 | toybox grep -Eo '[0-9]' | toybox xargs | toybox sed 's/\ //g'"'''.format(DUTadd[i])).read()).read())
-    IMEIPattern = re.compile('/w*')
+    IMEIPattern = re.compile('[?!\\n]*(.*.)[\\t]*')
     IMEI = IMEIPattern.findall(IMEIraw)
     print(IMEI)
-    IMEI = IMEI[0]
+
 
     DUTFolder = "{}_{}_{}".format(IMEI, testCase , datetime.datetime.now().strftime("%H-%M-%S"))
 
