@@ -1,11 +1,8 @@
 import os, io, re
-from logADBModule import logADB
-from pullDUTADD import pullDUTADD
-
+from ADBTools import logADB, pullDUTADD
 
 os.system('cls')
 print("Walter's LogAll v3, ver.0.1\nAutomatically Connects to all ADB enabled devices and logs them.\nA Folder named with IMEI and timestamp is created for each connected device\n\n")
-
 
 testCase = input("Test Case Number\n")
 
