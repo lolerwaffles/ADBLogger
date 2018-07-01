@@ -4,6 +4,10 @@ dataTemp = str(io.StringIO(os.popen( r'''.\\platform-tools\\adb shell "service c
 rePattern = re.compile('[?!\\n]*(.*.)[\\t]*')
 print("IMEI:                 {}".format(rePattern.findall(dataTemp)[0]))
 
+dataTemp = str(io.StringIO(os.popen( r'''.\\platform-tools\\adb shell "service call iphonesubinfo 11 | toybox cut -d \"'\" -f2 | toybox grep -Eo '[0-9]' | toybox xargs | toybox sed 's/\ //g'"''').read()).read())
+rePattern = re.compile('[?!\\n]*(.*.)[\\t]*')
+print("ICCID:                {}".format(rePattern.findall(dataTemp)[0]))
+
 dataTemp = str(io.StringIO(os.popen( r'''.\\platform-tools\\adb shell "service call iphonesubinfo 19 | toybox cut -d \"'\" -f2 | toybox grep -Eo '[0-9]' | toybox xargs | toybox sed 's/\ //g'"''').read()).read())
 rePattern = re.compile('[?!\\n]*(.*.)[\\t]*')
 print("MDN:                  {}".format(rePattern.findall(dataTemp)[0]))
@@ -43,3 +47,7 @@ print("LTE/CDMA Chipset type:{}".format(rePattern.findall(dataTemp)[0]))
 dataTemp = str(io.StringIO(os.popen( r'''.\\platform-tools\\adb shell getprop ro.build.expect.baseband''').read()).read())
 rePattern = re.compile('[?!\\n]*(.*.)[\\t]*')
 print("LTE/CDMA Chipset Ver.:{}".format(rePattern.findall(dataTemp)[0]))
+
+dataTemp = str(io.StringIO(os.popen( r'''.\\platform-tools\\adb shell getprop ro.product.cpu.abi''').read()).read())
+rePattern = re.compile('[?!\\n]*(.*.)[\\t]*')
+print("CPU version Ver.:    {}".format(rePattern.findall(dataTemp)[0]))
